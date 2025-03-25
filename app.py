@@ -48,10 +48,10 @@ FREQUENT_CUSTOMER_HEADERS = ['Full Name', 'Phone Number', 'Reservation Count']
 
 # Campaign worksheet names
 CAMPAIGN_SHEETS = {
-    'Unli-Paluto': 'Campaign1_Reservations',
+    'Basic': 'Basic_Reservations',
+    'Unli-Paluto': 'UnliPaluto_Reservations',
     'Campaign 2': 'Campaign2_Reservations',
-    'Campaign 3': 'Campaign3_Reservations',
-    'Basic': 'Basic_Reservations'  # New sheet for basic reservations
+    'Campaign 3': 'Campaign3_Reservations'
 }
 
 # Google Places API configuration
