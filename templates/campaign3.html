@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign 3 Reservation - PALUTO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav__header">
+            <div class="logo nav__logo">
+                <a href="/" class="logo-container">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Paluto Logo" class="nav__logo-img">
+                    <span class="logo-text">PALUTO</span>
+                </a>
+            </div>
+            <div class="nav__menu__btn" id="menu-btn">
+                <i class="ri-menu-line"></i>
+            </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+            <li><a href="/#home">Home</a></li>
+            <li><a href="/#about">About Us</a></li>
+            <li><a href="/#menu">Menu</a></li>
+            <li><a href="/#gallery">Gallery</a></li>
+            <li><a href="/#reviews">Reviews</a></li>
+            <li><a href="/#contact">Contact</a></li>
+            <li><a href="/#faq">FAQs</a></li>
+        </ul>
+    </nav>
+
+    <!-- Back to Home Button -->
+    <a href="/" class="back-home">
+        <i class="ri-arrow-left-line"></i>
+        Back to Home
+    </a>
+
+    <!-- Campaign 3 Section -->
+    <section class="section__container">
+        <h2 class="section__header">Campaign 3 Reservation</h2>
+        <p class="section__description">Family package with special menu items and deals.</p>
+
+        <!-- Reservation Form -->
+        <div class="reservation-form-container">
+            <form id="reservationForm">
+                <div class="form-group">
+                    <label for="reserveName">Full Name</label>
+                    <input type="text" 
+                           id="reserveName" 
+                           name="fullName" 
+                           pattern="^[A-Za-z\s\-',.;:()\[\]]+$"
+                           title="Please enter a valid name (letters, spaces, punctuation marks allowed)"
+                           onkeypress="return /[A-Za-z\s\-',.;:()\[\]]/.test(event.key)"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reservePhone">Contact Number</label>
+                    <input type="tel" id="reservePhone" name="phoneNumber" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="inquiryType">Type of Inquiry</label>
+                    <select id="inquiryType" name="inquiryType" required>
+                        <option value="">Select Type</option>
+                        <option value="Dine-in">Dine-in</option>
+                        <option value="Take-out">Take-out</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reserveDate">Date</label>
+                    <input type="date" id="reserveDate" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reserveTime">Time</label>
+                    <select id="reserveTime" name="time" required>
+                        <option value="">Select Time</option>
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="1:00 PM">1:00 PM</option>
+                        <option value="2:00 PM">2:00 PM</option>
+                        <option value="3:00 PM">3:00 PM</option>
+                        <option value="4:00 PM">4:00 PM</option>
+                        <option value="5:00 PM">5:00 PM</option>
+                        <option value="6:00 PM">6:00 PM</option>
+                        <option value="7:00 PM">7:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reservePeople">Number of People</label>
+                    <input type="number" id="reservePeople" name="numberOfPeople" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reserveMessage">Special Requests/Message <span id="charCount">0/250</span></label>
+                    <textarea id="reserveMessage" name="message" rows="4" maxlength="250"></textarea>
+                </div>
+
+                <input type="hidden" id="campaignSelect" name="campaign" value="Campaign 3">
+
+                <button type="submit" class="btn">Submit Reservation</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Processing your request...</div>
+        </div>
+    </div>
+
+    <!-- Visitor Modal -->
+    <div id="visitorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Welcome to PALUTO!</h2>
+            <form id="visitorForm">
+                <div class="form-group">
+                    <label for="visitorName">Full Name:</label>
+                    <input type="text" 
+                           id="visitorName" 
+                           name="fullName" 
+                           pattern="^[A-Za-z\s\-',.;:()\[\]]+$"
+                           title="Please enter a valid name (letters, spaces, punctuation marks allowed)"
+                           onkeypress="return /[A-Za-z\s\-',.;:()\[\]]/.test(event.key)"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="visitorPhone">Contact Number:</label>
+                    <input type="tel" id="visitorPhone" name="phoneNumber" value="09" maxlength="11" pattern="09[0-9]{9}" required>
+                </div>
+                <button type="submit" class="btn">Proceed</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="summaryModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Review Your Reservation</h2>
+            <div id="summaryContent"></div>
+            <div class="button-group">
+                <button id="editReservation" class="btn btn-secondary">Edit</button>
+                <button id="confirmReservation" class="btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h2>Reservation Confirmed!</h2>
+            <div class="confirmation-message">
+                <p>Your reservation has been successfully submitted.</p>
+                <p>Please save your reservation code:</p>
+            </div>
+            <div id="reservationCode" class="reservation-code-section"></div>
+            <div class="screenshot-notice">
+                <i class="ri-camera-line"></i>
+                <span>Please take a screenshot or note of your reservation code</span>
+            </div>
+            <button id="doneButton" class="btn">Done</button>
+        </div>
+    </div>
+
+    <div id="dateAlertModal" class="modal">
+        <div class="modal-content alert-modal">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h3>Date Selection Notice</h3>
+            </div>
+            <div class="modal-body">
+                <div class="alert-icon">⚠️</div>
+                <p id="dateAlertMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal(dateAlertModal)">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Auto-fill visitor information on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedVisitorInfo = sessionStorage.getItem('visitorInfo');
+            if (storedVisitorInfo) {
+                const visitorInfo = JSON.parse(storedVisitorInfo);
+                const reserveName = document.getElementById('reserveName');
+                const reservePhone = document.getElementById('reservePhone');
+                if (reserveName && reservePhone) {
+                    reserveName.value = visitorInfo.fullName;
+                    reservePhone.value = visitorInfo.phoneNumber;
+                }
+            } else {
+                // If no visitor info, show visitor modal
+                const visitorModal = document.getElementById('visitorModal');
+                if (visitorModal) {
+                    visitorModal.style.display = 'block';
+                    visitorModal.style.opacity = '1';
+                    visitorModal.style.visibility = 'visible';
+                    document.body.classList.add('modal-open');
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

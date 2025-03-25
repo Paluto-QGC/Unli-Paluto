@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlimited - PALUTO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  
+    <nav>
+        <div class="nav__header">
+            <div class="logo nav__logo">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Paluto Logo" class="nav__logo-img">
+                    <span class="logo-text">PALUTO</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    
+    <section class="section__container">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='images/Unli paluto Logo.png') }}" alt="Unli Paluto Logo" class="unli-paluto-logo">
+        </div>
+        <p class="section__description">Iloilo's FIRST & ONLY UNLIMITED Paluto Dining Experience.</p>
+        <p class="section__description">Fresh seafood, pork, and chicken—all cooked just the way you like it and UNLIMITED!</p>
+
+        <!-- Reservation Form -->
+        <div class="reservation-form-container">
+            <p class="form-title">Reserve Now!</p>
+            <form id="reservationForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="reserveName">Full Name</label>
+                    <input type="text" 
+                           id="reserveName" 
+                           name="fullName" 
+                           pattern="^[A-Za-z\s\-',.;:()\[\]]+$"
+                           title="Please enter a valid name (letters, spaces, punctuation marks allowed)"
+                           onkeypress="return /[A-Za-z\s\-',.;:()\[\]]/.test(event.key)"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reservePhone">Contact Number</label>
+                    <input type="tel" id="reservePhone" name="phoneNumber" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="inquiryType">Type of Inquiry</label>
+                    <input type="text" id="inquiryType" name="inquiryType" value="Dine-in" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="reserveDate">Date</label>
+                    <input type="text" id="reserveDate" name="date" value="March 30, 2025" readonly style="background-color: #f9f9f9; cursor: not-allowed;">
+                    <input type="hidden" name="date_value" value="2025-03-30">
+                </div>
+
+                <div class="form-group">
+                    <label for="reserveTime">Time</label>
+                    <select id="reserveTime" name="time" required>
+                        <option value="">Select Time</option>
+                        <option value="11:00 AM">10:00 AM</option>
+                        <option value="12:00 PM">11:00 AM</option>
+                        <option value="1:00 PM">12:00 PM</option>
+                        <option value="2:00 PM">1:00 PM</option>
+                        <option value="3:00 PM">2:00 PM</option>
+                        <option value="4:00 PM">3:00 PM</option>
+                        <option value="5:00 PM">5:00 PM</option>
+                        <option value="6:00 PM">6:00 PM</option>
+                        <option value="7:00 PM">7:00 PM</option>
+                        <option value="7:00 PM">8:00 PM</option>
+                        <option value="7:00 PM">9:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reservePeople">Headcount</label>
+                    <input type="number" 
+                           id="reservePeople" 
+                           name="numberOfPeople" 
+                           min="1" 
+                           max="20" 
+                           maxlength="2"
+                           oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2); if(this.value > 20) this.value = 20;"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reserveMessage">Special Requests/Message</label>
+                    <textarea id="reserveMessage" name="message"></textarea>
+                    <div id="charCount" class="char-count">0/250</div>
+                </div>
+
+                <input type="hidden" id="campaignSelect" name="campaign" value="Unli-Paluto">
+
+                <button type="submit" class="btn">Submit Reservation</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Processing your request...</div>
+        </div>
+    </div>
+
+    <div id="summaryModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Review Your Reservation</h2>
+            <div id="summaryContent"></div>
+            <div class="button-group">
+                <button id="editReservation" class="btn btn-secondary">Edit</button>
+                <button id="confirmReservation" class="btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h2>Reservation Confirmed!</h2>
+            <div class="confirmation-message">
+                <p>Your reservation has been successfully submitted.</p>
+                <p>Please save your reservation code:</p>
+            </div>
+            <div id="reservationCode" class="reservation-code-section"></div>
+            <div class="screenshot-notice">
+                <i class="fas fa-camera"></i>
+                <span>Please take a screenshot or note of your reservation code</span>
+            </div>
+            <button id="doneButton" class="btn">Done</button>
+        </div>
+    </div>
+
+    <div id="dateAlertModal" class="modal">
+        <div class="modal-content alert-modal">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h3>Date Selection Notice</h3>
+            </div>
+            <div class="modal-body">
+                <div class="alert-icon">⚠️</div>
+                <p id="dateAlertMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal(dateAlertModal)">OK</button>
+            </div>
+        </div>
+    </div>
+
+<!-- ... existing code ... -->
+    <!-- Scripts -->
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Ensure content is visible by default
+        document.addEventListener('DOMContentLoaded', function() {
+            // Remove any modal-related classes from body
+            document.body.classList.remove('modal-open');
+            
+            // Make sure the nav header is visible
+            const navHeader = document.querySelector('.nav__header');
+            if (navHeader) {
+                navHeader.style.opacity = '1';
+                navHeader.style.pointerEvents = 'auto';
+            }
+            
+            // Force remove any inline styles that might be preventing input
+            document.querySelectorAll('input, select, textarea, button').forEach(element => {
+                if (!element.hasAttribute('readonly') && !element.hasAttribute('disabled')) {
+                    element.removeAttribute('style');
+                    element.style.pointerEvents = 'auto';
+                    element.style.opacity = '1';
+                    element.style.backgroundColor = '#ffffff';
+                    element.style.zIndex = '999';
+                }
+            });
+            
+            // Make sure the form container is visible
+            const formContainer = document.querySelector('.reservation-form-container');
+            if (formContainer) {
+                formContainer.style.display = 'block';
+                formContainer.style.visibility = 'visible';
+                formContainer.style.opacity = '1';
+                formContainer.style.zIndex = '100';
+                formContainer.style.pointerEvents = 'auto';
+            }
+
+            // Make sure the section container is visible
+            const sectionContainer = document.querySelector('.section__container');
+            if (sectionContainer) {
+                sectionContainer.style.display = 'block';
+                sectionContainer.style.visibility = 'visible';
+                sectionContainer.style.opacity = '1';
+                sectionContainer.style.zIndex = '10';
+                sectionContainer.style.pointerEvents = 'auto';
+            }
+            
+            // Ensure modals are hidden by default
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+                modal.style.pointerEvents = 'auto';
+            });
+            
+            // Make sure loading overlay is hidden
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+
+            // Add click handlers for modal close buttons
+            document.querySelectorAll('.close-btn, .close').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // Make sure all buttons are visible and properly styled
+            document.querySelectorAll('.btn').forEach(button => {
+                button.style.backgroundColor = 'var(--primary-color)';
+                button.style.color = '#ffffff';
+                button.style.opacity = '1';
+                button.style.pointerEvents = 'auto';
+                button.style.display = 'inline-block';
+                button.style.padding = '12px 24px';
+                button.style.border = 'none';
+                button.style.borderRadius = '5px';
+                button.style.cursor = 'pointer';
+                button.style.fontWeight = '500';
+            });
+
+            // Style secondary buttons differently
+            document.querySelectorAll('.btn-secondary').forEach(button => {
+                button.style.backgroundColor = 'var(--accent-color)';
+                button.style.color = 'var(--nero)';
+            });
+        });
+
+        // Handle form submission without redirecting
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Show loading overlay
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'flex';
+            }
+            
+            // Get form data
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Convert FormData to JSON object
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+            
+            // Display summary modal
+            const summaryModal = document.getElementById('summaryModal');
+            const summaryContent = document.getElementById('summaryContent');
+            
+            if (summaryModal && summaryContent) {
+                // Build summary content
+                let summaryHTML = '<div class="summary-details">';
+                summaryHTML += `<p><strong>Campaign:</strong> Unli-Paluto</p>`;
+                summaryHTML += `<p><strong>Name:</strong> ${formData.get('fullName')}</p>`;
+                summaryHTML += `<p><strong>Contact:</strong> ${formData.get('phoneNumber')}</p>`;
+                summaryHTML += `<p><strong>Date:</strong> ${formData.get('date')}</p>`;
+                summaryHTML += `<p><strong>Time:</strong> ${formData.get('time')}</p>`;
+                summaryHTML += `<p><strong>Headcount:</strong> ${formData.get('numberOfPeople')}</p>`;
+                if (formData.get('message')) {
+                    summaryHTML += `<p><strong>Message:</strong> ${formData.get('message')}</p>`;
+                }
+                summaryHTML += '</div>';
+                
+                summaryContent.innerHTML = summaryHTML;
+                
+                // Hide loading overlay and show summary modal
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                
+                summaryModal.style.display = 'block';
+            }
+            
+            // Set up confirm button
+            const confirmButton = document.getElementById('confirmReservation');
+            if (confirmButton) {
+                confirmButton.onclick = async function() {
+                    // Hide summary modal
+                    if (summaryModal) {
+                        summaryModal.style.display = 'none';
+                    }
+                    
+                    // Show loading overlay
+                    if (loadingOverlay) {
+                        loadingOverlay.style.display = 'flex';
+                    }
+
+                    try {
+                        // Submit reservation to server
+                        const response = await fetch('/submit_reservation', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(jsonData)
+                        });
+
+                        const result = await response.json();
+
+                        if (result.status === 'success') {
+                            // Display confirmation modal with the server-generated reservation code
+                            const confirmationModal = document.getElementById('confirmationModal');
+                            const reservationCodeElement = document.getElementById('reservationCode');
+                            
+                            if (confirmationModal && reservationCodeElement) {
+                                reservationCodeElement.innerHTML = `<span class="code">${result.reservationCode}</span>`;
+                                
+                                // Hide loading overlay and show confirmation modal
+                                if (loadingOverlay) {
+                                    loadingOverlay.style.display = 'none';
+                                }
+                                
+                                confirmationModal.style.display = 'block';
+                            }
+                        } else {
+                            alert('Error submitting reservation: ' + result.message);
+                            if (loadingOverlay) {
+                                loadingOverlay.style.display = 'none';
+                            }
+                        }
+                    } catch (error) {
+                        alert('Error submitting reservation. Please try again.');
+                        if (loadingOverlay) {
+                            loadingOverlay.style.display = 'none';
+                        }
+                    }
+                };
+            }
+            
+            // Set up edit button
+            const editButton = document.getElementById('editReservation');
+            if (editButton) {
+                editButton.onclick = function() {
+                    // Hide summary modal
+                    const summaryModal = document.getElementById('summaryModal');
+                    if (summaryModal) {
+                        summaryModal.style.display = 'none';
+                        summaryModal.style.opacity = '0';
+                        summaryModal.style.visibility = 'hidden';
+                    }
+                    
+                    // Show form container
+                    const formContainer = document.querySelector('.reservation-form-container');
+                    if (formContainer) {
+                        formContainer.style.display = 'block';
+                        formContainer.style.visibility = 'visible';
+                        formContainer.style.opacity = '1';
+                    }
+                    
+                    // Remove modal-open class from body
+                    document.body.classList.remove('modal-open');
+                    
+                    // Ensure all form elements are enabled
+                    document.querySelectorAll('input, select, textarea, button').forEach(element => {
+                        if (!element.hasAttribute('readonly') && !element.hasAttribute('disabled')) {
+                            element.style.pointerEvents = 'auto';
+                            element.style.opacity = '1';
+                        }
+                    });
+                };
+            }
+            
+            // Set up done button
+            const doneButton = document.getElementById('doneButton');
+            if (doneButton) {
+                doneButton.onclick = function() {
+                    // Hide confirmation modal
+                    const confirmationModal = document.getElementById('confirmationModal');
+                    if (confirmationModal) {
+                        confirmationModal.style.display = 'none';
+                    }
+                    
+                    // Reset form without redirecting
+                    form.reset();
+                    
+                    // Ensure we stay on the current page
+                    return false;
+                };
+            }
+        }
+    </script>
+<!-- ... existing code ... -->
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <title>PALUTO Seafood Grill & Restaurant</title>
+  </head>
+  <body>
+
+    <nav>
+      <div class="nav__header">
+        <div class="logo nav__logo">
+          <a href="#" class="logo-container">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Paluto Logo" class="nav__logo-img">
+            <span class="logo-text">PALUTO</span>
+          </a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <span><i class="ri-menu-line"></i></span>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#faq">FAQs</a></li>
+      </ul>
+    </nav>
+
+    <header class="section__container header__container" id="home">
+      <div class="header__content">
+        <h1>Experience Iloilo, <span>Kari na sa Paluto!</span></h1>
+        <p class="section__description">
+          Discover the finest seafood dining experience in Iloilo. Fresh catches, expertly prepared, served with heart.
+        </p>
+        <div class="header__btn">
+          <div class="reservation-button-container">
+            <button class="btn main-reserve-btn" id="mainReserveBtn"><b>Make a Reservation</b></button>
+          </div>
+        </div>
+      </div>
+      <div class="header__image">
+        <img src="{{ url_for('static', filename='images/header.png') }}" alt="Fresh Seafood Display" />
+      </div>
+    </header>
+
+    <!-- Visitor Modal -->
+    <div class="modal" id="visitorModal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Welcome to PALUTO!</h2>
+        <form id="visitorForm">
+          <div class="form-group">
+            <label for="visitorName">Full Name:</label>
+            <input type="text" id="visitorName" name="fullName" required>
+          </div>
+          <div class="form-group">
+            <label for="visitorPhone">Contact Number:</label>
+            <input type="tel" id="visitorPhone" name="phoneNumber" value="09" maxlength="11" pattern="09[0-9]{9}" required>
+          </div>
+          <button type="submit" class="btn">Proceed</button>
+        </form>
+      </div>
+    </div>
+
+        <!-- Campaigns Section -->
+        <section class="campaigns" id="campaigns">
+          <div class="section__container">
+            <h2 class="section__title">Current Promotions</h2>
+            <div class="campaigns__grid">
+             
+              <!-- Campaign 1 -->
+              <a href="{{ url_for('unli_paluto') }}" class="campaign__card">
+                <div class="campaign__front">
+                  <div class="campaign__content">
+                    <h3>Campaign 1</h3>
+                    <p>Description of Campaign 1 and its special offers.</p>
+                    <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=YOUR_TEXT_OR_URL&size=200x200" alt="QR Code for Campaign 1">
+                    <p class="reserve-here">Click to Reserve</p>
+                  </div>
+                </div>
+                <div class="campaign__back">
+                  <img src="{{ url_for('static', filename='images/PLT-Logo.png') }}" alt="Campaign 1 Image">
+                </div>
+              </a>
+
+              <!-- Campaign 2 -->
+              <a href="{{ url_for('campaign2') }}" class="campaign__card">
+                <div class="campaign__front">
+                  <div class="campaign__content">
+                    <h3>Campaign 2</h3>
+                    <p>Description of Campaign 2 and its special offers.</p>
+                    <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=YOUR_TEXT_OR_URL&size=200x200" alt="QR Code for Campaign 2">
+                    <p class="reserve-here">Click to Reserve</p>
+                  </div>
+                </div>
+                <div class="campaign__back">
+                  <img src="{{ url_for('static', filename='images/PLT-Logo.png') }}" alt="Campaign 2 Image">
+                </div>
+              </a>
+
+              <!-- Campaign 3 -->
+              <a href="{{ url_for('campaign3') }}" class="campaign__card">
+                <div class="campaign__front">
+                  <div class="campaign__content">
+                    <h3>Campaign 3</h3>
+                    <p>Description of Campaign 3 and its special offers.</p>
+                    <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=YOUR_TEXT_OR_URL&size=200x200" alt="QR Code for Campaign 3">
+                    <p class="reserve-here">Click to Reserve</p>
+                  </div>
+                </div>
+                <div class="campaign__back">
+                  <img src="{{ url_for('static', filename='images/PLT-Logo.png') }}" alt="Campaign 3 Image">
+                </div>
+              </a>
+            </div>
+            
+          </div>
+        </section>
+       <!-- Loading Overlay -->
+       <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+          
+          <div class="loading-text">Processing your request...</div>
+        </div>
+      </div>
+        <!-- Reservation Modal -->
+        <div class="modal" id="reservationModal">
+          <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Make a Reservation</h2>
+            <form id="reservationForm">
+              <div class="form-group">
+                <label for="campaignSelect">Select Campaign:</label>
+                <select id="campaignSelect" name="campaign" required>
+                  <option value="Basic">Basic Reservation</option>
+                  <option value="Campaign 1">Seafood Friday Special</option>
+                  <option value="Campaign 2">Weekend Feast</option>
+                  <option value="Campaign 3">Family Package</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="reserveName">Full Name:</label>
+                <input type="text" id="reserveName" name="fullName" required>
+              </div>
+              <div class="form-group">
+                <label for="reservePhone">Contact Number:</label>
+                <input type="tel" id="reservePhone" name="phoneNumber" value="09" maxlength="11" pattern="09[0-9]{9}" required>
+              </div>
+              <div class="form-group">
+                <label for="inquiryType">Type of Inquiry:</label>
+                <select id="inquiryType" name="inquiryType" required>
+                  <option value="">Select Type</option>
+                  <option value="Regular Dining">Regular Dining</option>
+                  <option value="Special Event">Special Event</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="reserveDate">Date:</label>
+                <input type="date" id="reserveDate" name="date" required>
+              </div>
+              <div class="form-group">
+                <label for="reserveTime">Time:</label>
+                <select id="reserveTime" name="time" required>
+                  <option value="">Select a time</option>
+                  <option value="09:00 AM">9:00 AM</option>
+                  <option value="09:30 AM">9:30 AM</option>
+                  <option value="10:00 AM">10:00 AM</option>
+                  <option value="10:30 AM">10:30 AM</option>
+                  <option value="11:00 AM">11:00 AM</option>
+                  <option value="11:30 AM">11:30 AM</option>
+                  <option value="12:00 PM">12:00 PM</option>
+                  <option value="12:30 PM">12:30 PM</option>
+                  <option value="13:00 PM">1:00 PM</option>
+                  <option value="13:30 PM">1:30 PM</option>
+                  <option value="14:00 PM">2:00 PM</option>
+                  <option value="14:30 PM">2:30 PM</option>
+                  <option value="15:00 PM">3:00 PM</option>
+                  <option value="15:30 PM">3:30 PM</option>
+                  <option value="16:00 PM">4:00 PM</option>
+                  <option value="16:30 PM">4:30 PM</option>
+                  <option value="17:00 PM">5:00 PM</option>
+                  <option value="17:30 PM">5:30 PM</option>
+                  <option value="18:00 PM">6:00 PM</option>
+                  <option value="18:30 PM">6:30 PM</option>
+                  <option value="19:00 PM">7:00 PM</option>
+                  <option value="19:30 PM">7:30 PM</option>
+                  <option value="20:00 PM">8:00 PM</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="reservePeople">Head Count:</label>
+                <input type="number" id="reservePeople" name="numberOfPeople" min="1" required>
+              </div>
+              <div class="form-group">
+                <label for="reserveMessage">Special Requests: <span id="charCount">0/250</span></label>
+                <textarea id="reserveMessage" name="message" maxlength="250"></textarea>
+              </div>
+              <button type="submit" class="btn">Review Reservation</button>
+            </form>
+          </div>
+        </div>
+
+    <!-- Summary Modal -->
+    <div class="modal" id="summaryModal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Reservation Summary</h2>
+        <div id="summaryContent"></div>
+        <div class="button-group">
+          <button id="confirmReservation" class="btn">Confirm Reservation</button>
+          <button id="editReservation" class="btn btn-secondary">Edit Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reservation Confirmed!</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="reservation-code">
+                    <h3>Your Reservation Code:</h3>
+                    <div class="code-display" id="reservationCode"></div>
+                </div>
+                <div class="screenshot-notice">
+                    <i class="fas fa-camera"></i>
+                    <p>Please take a screenshot of your reservation code before closing this window</p>
+                </div>
+                <div class="confirmation-message">
+                    <p>Thank you for choosing PALUTO! We've received your reservation and look forward to serving you.</p>
+                    <p>Please save your reservation code for reference.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="doneButton" class="btn">Done</button>
+            </div>
+        </div>
+    </div>
+
+<!-- Date Alert Modal -->
+<div id="dateAlertModal" class="modal">
+    <div class="modal-content alert-modal">
+        <div class="modal-header">
+            <h3>Date Selection Notice</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="alert-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <p id="dateAlertMessage"></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" onclick="closeModal(dateAlertModal)">Got it!</button>
+        </div>
+    </div>
+</div>
+
+    <!-- Rotating Contact Widget -->
+    <div class="contact-container">
+        <div class="icon-btn" data-tooltip="YouTube" onclick="window.open('https://www.youtube.com/@PalutoPhilippines?sub_confirmation=1')" aria-label="Subscribe to our YouTube channel">
+            <i class="ri-youtube-fill"></i>
+        </div>
+        <div class="icon-btn" data-tooltip="Instagram" onclick="window.open('https://www.instagram.com/paluto_philippines')" aria-label="Follow us on Instagram">
+            <i class="ri-instagram-fill"></i>
+        </div>
+        <div class="icon-btn" data-tooltip="TikTok" onclick="window.open('https://www.tiktok.com/@palutophilippines')" aria-label="Follow us on TikTok">
+            <i class="ri-tiktok-fill"></i>
+        </div>
+        <div class="icon-btn" data-tooltip="Facebook" onclick="window.open('https://www.facebook.com/palutophilippines')" aria-label="Visit our Facebook page">
+            <i class="ri-facebook-fill"></i>
+        </div>
+        <div class="contact-btn" id="toggle-btn" data-tooltip="Contact Us">
+            <i class="ri-contacts-fill"></i>
+        </div>
+    </div>
+
+    <!-- About Us Section -->
+    <section class="section__container" id="about">
+      <h2 class="section__header">About Us</h2>
+      <div class="about__container">
+        <div class="about__content">
+          <h3>Welcome to PALUTO</h3>
+          <p>At PALUTO Seafood Grill & Restaurant, we bring the authentic flavors of Iloilo's seafood cuisine to your table. Our commitment to fresh ingredients and traditional cooking methods ensures an unforgettable dining experience.</p>
+          <div class="about__highlights">
+            <div class="highlight">
+              <i class="ri-fish-line"></i>
+              <h4>Fresh Seafood</h4>
+              <p>Daily sourced from local fishermen</p>
+            </div>
+            <div class="highlight">
+              <i class="ri-restaurant-2-line"></i>
+              <h4>Expert Chefs</h4>
+              <p>Skilled in traditional and modern cuisine</p>
+            </div>
+            <div class="highlight">
+              <i class="ri-customer-service-2-line"></i>
+              <h4>Great Service</h4>
+              <p>Warm Filipino hospitality</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="section__container" id="menu">
+      <h2 class="section__header">Our Menu</h2>
+      <p class="section__description">
+        Discover our selection of freshly prepared dishes, from seafood specialties to local favorites
+      </p>
+      <div class="menu__container">
+        <div class="menu__filters">
+          <button class="menu__filter active" data-category="featured">All</button>
+          <button class="menu__filter" data-category="seafood">Seafood</button>
+          <button class="menu__filter" data-category="platters">Platters</button>
+          <button class="menu__filter" data-category="appetizers">Appetizers</button>
+          <button class="menu__filter" data-category="prices">Menu Price</button>
+        </div>
+        <div class="menu__grid">
+          <!-- Featured Category -->
+          <div class="menu__category active" data-category="featured">
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/Platter.jpg') }}" alt="Seafood Platter">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Seafood Platter Special</h3>
+                  <span class="menu__item-price">₱899</span>
+                </div>
+                <p class="menu__item-description">A generous assortment of our freshest seafood, grilled to perfection</p>
+                <div class="menu__item-tags">
+                  <span class="tag">Best Seller</span>
+                  <span class="tag">Serves 2-3</span>
+                </div>
+              </div>
+            </div>
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/Shrimp.jpg') }}" alt="Garlic Shrimp">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Garlic Butter Shrimp</h3>
+                  <span class="menu__item-price">₱450</span>
+                </div>
+                <p class="menu__item-description">Fresh shrimp sautéed in aromatic garlic butter sauce</p>
+                <div class="menu__item-tags">
+                  <span class="tag">Popular</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seafood Category -->
+          <div class="menu__category" data-category="seafood">
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/Sweet and Sour.jpg') }}" alt="Sweet and Sour Fish">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Sweet and Sour Fish</h3>
+                  <span class="menu__item-price">₱380</span>
+                </div>
+                <p class="menu__item-description">Crispy fish fillet with our special sweet and sour sauce</p>
+              </div>
+            </div>
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/menu1.jpg') }}" alt="Grilled Fish">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Grilled Fish of the Day</h3>
+                  <span class="menu__item-price">₱Market Price</span>
+                </div>
+                <p class="menu__item-description">Fresh catch grilled with local herbs and spices</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Platters Category -->
+          <div class="menu__category" data-category="platters">
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/menu.jpg') }}" alt="Mixed Grill Platter">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Mixed Grill Platter</h3>
+                  <span class="menu__item-price">₱999</span>
+                </div>
+                <p class="menu__item-description">Combination of seafood and meat grilled to perfection</p>
+                <div class="menu__item-tags">
+                  <span class="tag">Family Size</span>
+                  <span class="tag">Serves 3-4</span>
+                </div>
+              </div>
+            </div>
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/Chicken.jpg') }}" alt="Chicken Platter">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Grilled Chicken Platter</h3>
+                  <span class="menu__item-price">₱599</span>
+                </div>
+                <p class="menu__item-description">Marinated chicken with grilled vegetables and rice</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Appetizers Category -->
+          <div class="menu__category" data-category="appetizers">
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/Lumpia.jpg') }}" alt="Lumpia">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Fresh Lumpia</h3>
+                  <span class="menu__item-price">₱180</span>
+                </div>
+                <p class="menu__item-description">Traditional Filipino spring rolls with sweet sauce</p>
+                <div class="menu__item-tags">
+                  <span class="tag">Vegetarian Option</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Price Category -->
+          <div class="menu__category" data-category="prices">
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/menuprice.jpg') }}" 
+                   alt="Menu Price List 1"
+                   style="height: auto; max-height: none; width: 100%; object-fit: contain;">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Menu Price List - Page 1</h3>
+                </div>
+                <p class="menu__item-description">Click to view full size</p>
+              </div>
+            </div>
+            <div class="menu__item">
+              <img src="{{ url_for('static', filename='images/Menu/menuprice1.jpg') }}" 
+                   alt="Menu Price List 2"
+                   style="height: auto; max-height: none; width: 100%; object-fit: contain;">
+              <div class="menu__item-content">
+                <div class="menu__item-header">
+                  <h3 class="menu__item-title">Menu Price List - Page 2</h3>
+                </div>
+                <p class="menu__item-description">Click to view full size</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section__container" id="gallery">
+      <h2 class="section__header">Our Gallery</h2>
+      <p class="section__description">
+        Explore our culinary creations and dining experiences through these captured moments.
+      </p>
+      <div class="gallery__container">
+        <div class="gallery__filters">
+          <button class="gallery__filter active" data-filter="all">All</button>
+          <button class="gallery__filter" data-filter="food">Food</button>
+          <button class="gallery__filter" data-filter="customers">Customers</button>
+          <button class="gallery__filter" data-filter="events">Events</button>
+        </div>
+        <div class="gallery__grid">
+          <!-- Food Category -->
+          <div class="gallery__item" data-category="food">
+            <img src="{{ url_for('static', filename='images/Gallery/Pork-Belly.png') }}" 
+                 alt="Grilled Pork Belly"
+                 loading="lazy">
+            <div class="gallery__overlay">
+              <h3>Grilled Pork Belly</h3>
+              <p>Our signature pork dish</p>
+            </div>
+          </div>
+          <div class="gallery__item" data-category="food">
+            <img src="{{ url_for('static', filename='images/Gallery/Sisig.png') }}" 
+                 alt="Sizzling Sisig"
+                 loading="lazy">
+            <div class="gallery__overlay">
+              <h3>Sizzling Sisig</h3>
+              <p>A Filipino favorite</p>
+            </div>
+          </div>
+          <div class="gallery__item" data-category="food">
+            <img src="{{ url_for('static', filename='images/Gallery/Boneless bangus.png') }}" 
+                 alt="Boneless Bangus"
+                 loading="lazy">
+            <div class="gallery__overlay">
+              <h3>Boneless Bangus</h3>
+              <p>Fresh and flavorful</p>
+            </div>
+          </div>
+          
+          <!-- Customer Category -->
+          <div class="gallery__item" data-category="customers">
+            <img src="{{ url_for('static', filename='images/Gallery/Customer1.jpg') }}" 
+                 alt="Happy Customer"
+                 loading="lazy">
+            <div class="gallery__overlay">
+              <h3>Customer Experience</h3>
+              <p>Creating memories</p>
+            </div>
+          </div>
+          <div class="gallery__item" data-category="customers">
+            <img src="{{ url_for('static', filename='images/Gallery/Customer2.jpg') }}" 
+                 alt="Dining Experience"
+                 loading="lazy">
+            <div class="gallery__overlay">
+              <h3>Dining Experience</h3>
+              <p>Moments shared</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox Modal for Gallery -->
+    <div class="gallery__lightbox" id="galleryLightbox">
+      <span class="lightbox__close">&times;</span>
+      <img class="lightbox__image" id="lightboxImage" src="" alt="">
+      <div class="lightbox__caption"></div>
+      <button class="lightbox__prev">&lt;</button>
+      <button class="lightbox__next">&gt;</button>
+    </div>
+
+    <!-- Reviews Section -->
+    <section class="section__container" id="reviews">
+      <h2 class="section__header">Customer Reviews</h2>
+      <p class="section__description">
+        See what our customers have to say about their dining experience at PALUTO
+      </p>
+      <div class="reviews__container">
+        <div class="reviews__grid" id="reviewsGrid">
+          <!-- Loading state -->
+          <div class="reviews__loading">
+            <div class="loading-spinner"></div>
+            <p>Loading reviews...</p>
+          </div>
+        </div>
+        <div class="reviews__cta">
+          <a href="https://g.co/kgs/KrgMbEN" class="btn" target="_blank">
+            <i class="ri-google-fill"></i> Leave a Review on Google
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section__container" id="contact">
+      <h2 class="section__header">Contact Us</h2>
+      <p class="section__description">Get in touch with us for reservations, inquiries, or feedback</p>
+      <div class="contact__container">
+        <div class="contact__info">
+          <div class="contact__card">
+            <i class="ri-map-pin-line"></i>
+            <h3>Location</h3>
+            <p>Paluto Seafood Grill & Restaurant<br>
+               Brgy. Buhang, Jaro<br>
+               Iloilo City, Philippines</p>
+          </div>
+          <div class="contact__card">
+            <i class="ri-time-line"></i>
+            <h3>Business Hours</h3>
+            <p>
+              Monday - Sunday<br>
+              Lunch: 11:00 AM - 2:30 PM<br>
+              Dinner: 5:00 PM - 9:00 PM
+            </p>
+          </div>
+          <div class="contact__card">
+            <i class="ri-phone-line"></i>
+            <h3>Contact</h3>
+            <p>
+              Phone: (+63) 927 847 7110<br>
+              Email: info@paluto.com<br>
+              <div class="social-links">
+                <a href="https://www.facebook.com/palutophilippines" target="_blank"><i class="ri-facebook-fill"></i></a>
+                <a href="https://www.instagram.com/paluto_philippines" target="_blank"><i class="ri-instagram-fill"></i></a>
+                <a href="https://www.tiktok.com/@palutophilippines" target="_blank"><i class="ri-tiktok-fill"></i></a>
+                <a href="https://www.youtube.com/@PalutoPhilippines" target="_blank"><i class="ri-youtube-fill"></i></a>
+              </div>
+            </p>
+          </div>
+        </div>
+
+        <div class="contact__map">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4363.698921121312!2d122.59089667545587!3d10.759633259502401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33aee5f789195a35%3A0x2931986f1ba772b4!2sPaluto%20Seafood%20Grill%20%26%20Restaurant!5e1!3m2!1sen!2sph!4v1741851003754!5m2!1sen!2sph"  
+            width="100%" 
+            height="300" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy">
+          </iframe>
+        </div>
+
+        <div class="contact__form">
+          <h3>Send us a Message</h3>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="contactName">Full Name</label>
+              <input type="text" id="contactName" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <label for="contactEmail">Email Address</label>
+              <input type="email" id="contactEmail" name="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+              <label for="contactPhone">Phone Number</label>
+              <input type="tel" id="contactPhone" name="phone" placeholder="Your Phone Number">
+            </div>
+            <div class="form-group">
+              <label for="inquiryType">Type of Inquiry</label>
+              <select id="inquiryType" name="inquiryType" required>
+                <option value="">Select Type</option>
+                <option value="Reservation">Reservation</option>
+                <option value="Event Booking">Event Booking</option>
+                <option value="Partnership">Partnership</option>
+                <option value="Feedback">Feedback</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="contactMessage">Message</label>
+              <textarea id="contactMessage" name="message" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" class="btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section__container" id="faq">
+      <h2 class="section__header">Frequently Asked Questions</h2>
+      <div class="faq__container">
+        <div class="faq__grid">
+          <!-- FAQs will be dynamically loaded here -->
+        </div>
+      </div>
+    </section>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
