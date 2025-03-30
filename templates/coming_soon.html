@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon - PALUTO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  
+    <nav>
+        <div class="nav__header">
+            <div class="logo nav__logo">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Paluto Logo" class="nav__logo-img">
+                    <span class="logo-text">PALUTO</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section__container">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='images/Unli paluto Logo.png') }}" alt="Unli Paluto Logo" class="unli-paluto-logo">
+        </div>
+        
+        <div class="coming-soon-container">
+            <div class="coming-soon-card">
+                <div class="coming-soon-icon">
+                    <i class="ri-timer-line"></i>
+                </div>
+                <h2 class="coming-soon-title">We'll Be Back Soon!</h2>
+                <p class="coming-soon-message">We're currently preparing something special just for you.</p>
+                
+                <div class="countdown-section">
+                    <h3>ANTICIPATE OUR RETURN</h3>
+                    <div class="features-preview">
+                        <div class="feature-item">
+                            <i class="ri-restaurant-2-line"></i>
+                            <p>Fresh Seafood</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="ri-fire-line"></i>
+                            <p>Unlimited Paluto</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="ri-user-star-line"></i>
+                            <p>Amazing Service</p>
+                        </div>
+                    </div>
+                </div>
+               
+                
+                <div class="social-follow">
+                    <p>Follow us for updates:</p>
+                    <div class="social-icons">
+                        <a href=https://www.facebook.com/palutophilippines/#" class="social-icon"><i class="ri-facebook-fill"></i></a>
+                        <a href="https://www.instagram.com/paluto_philippines/#" class="social-icon"><i class="ri-instagram-line"></i></a>
+                        <a href="https://www.tiktok.com/@palutophilippines" class="social-icon"><i class="ri-tiktok-line"></i></a>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make sure everything is visible and styled correctly
+            document.querySelectorAll('.btn').forEach(button => {
+                button.style.backgroundColor = 'var(--primary-color)';
+                button.style.color = '#ffffff';
+                button.style.opacity = '1';
+                button.style.pointerEvents = 'auto';
+                button.style.display = 'inline-block';
+                button.style.padding = '12px 24px';
+                button.style.border = 'none';
+                button.style.borderRadius = '5px';
+                button.style.cursor = 'pointer';
+                button.style.fontWeight = '500';
+            });
+            
+            // Add notification form handler
+            const notificationForm = document.getElementById('notificationForm');
+            if (notificationForm) {
+                notificationForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show a thank you message
+                    const formContainer = this.parentNode;
+                    formContainer.innerHTML = '<p class="notification-thanks">Thank you! We\'ll notify you when we\'re back.</p>';
+                });
+            }
+        });
+    </script>
+
+    <style>
+        .coming-soon-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .coming-soon-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .coming-soon-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .coming-soon-icon i {
+            font-size: 3rem;
+            color: var(--nero);
+        }
+        
+        .coming-soon-title {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .coming-soon-message {
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .countdown-section {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .countdown-section h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .features-preview {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .feature-item i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-item p {
+            color: var(--text-dark);
+            font-size: 1rem;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .notification-signup {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: rgba(var(--primary-color-rgb), 0.05);
+        }
+        
+        .notification-signup p {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .notification-form {
+            display: flex;
+            gap: 0.8rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .notification-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .notification-thanks {
+            color: var(--success-color);
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .social-follow {
+            margin-bottom: 2rem;
+        }
+        
+        .social-follow p {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: var(--nero);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .coming-soon-actions {
+            margin-top: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .coming-soon-card {
+                padding: 1.5rem;
+            }
+            
+            .coming-soon-title {
+                font-size: 1.8rem;
+            }
+            
+            .coming-soon-message {
+                font-size: 1rem;
+            }
+            
+            .features-preview {
+                gap: 1.5rem;
+            }
+            
+            .notification-form {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .coming-soon-card {
+                padding: 1.2rem;
+            }
+            
+            .coming-soon-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .coming-soon-icon i {
+                font-size: 2rem;
+            }
+            
+            .coming-soon-title {
+                font-size: 1.5rem;
+            }
+            
+            .features-preview {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+            
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</body>
+</html> 
