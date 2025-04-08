@@ -425,8 +425,10 @@
         return sundays;
       }
       
-      // Set the end date to Sunday, June 29, 2025.
+      // Set the end date to Sunday, June 29, 2025 and include the full day
       const endDate = new Date("2025-06-29");
+      endDate.setHours(23, 59, 59, 999);
+      
       const today = new Date();
       const sundays = getAllSundays(today, endDate);
       
