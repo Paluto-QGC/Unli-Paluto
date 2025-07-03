@@ -21,6 +21,10 @@
       </div>
   </nav>
 
+  <a href="/" class="back-home">
+        <i class="ri-arrow-left-line"></i>
+        Back to Home
+    </a>
   
   <section class="section__container">
       <div class="header-logo">
@@ -57,9 +61,10 @@
               <!-- Date Dropdown: dynamically populated with Sundays -->
               <div class="form-group">
                   <label for="reserveDate">Date</label>
-                  <select id="reserveDate" name="date" style="background-color: #f9f9f9; cursor: pointer;">
-                      <!-- Sunday options will be populated here -->
-                  </select>
+                 <select id="reserveDate" name="date" required style="background-color: #f9f9f9; cursor: pointer;">
+    <!-- Sunday options will be populated here -->
+</select>
+
               </div>
 
               <div class="form-group">
@@ -407,56 +412,93 @@
   </script>
 
   <!-- Script to generate Sunday dates from nearest Sunday until June 29, 2025 -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // Function to get all Sundays between two dates (inclusive)
-      function getAllSundays(startDate, endDate) {
-        const sundays = [];
-        const current = new Date(startDate);
-        // Adjust current date to the nearest upcoming Sunday (if not already Sunday)
-        while (current.getDay() !== 0) {
-          current.setDate(current.getDate() + 1);
-        }
-        // Loop through each week until passing the end date
-        while (current <= endDate) {
-          sundays.push(new Date(current));
-          current.setDate(current.getDate() + 7);
-        }
-        return sundays;
+  <!-- Inside the <script> block that populates the Sunday dates -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function getUpcomingSundaysThisMonth() {
+    const sundays = [];
+    const today        = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear  = today.getFullYear();
+
+    // start scanning from today
+    const cursor = new Date(today);
+
+    // roll forward to the next Sunday (inclusive)
+    while (cursor.getDay() !== 0) {
+      cursor.setDate(cursor.getDate() + 1);
+    }
+
+    // collect each Sunday while we're still in this month
+    while (
+      cursor.getMonth() === currentMonth &&
+      cursor.getFullYear() === currentYear
+    ) {
+      if (cursor >= today) {
+        // clone the date so we can UTC‐anchor it later
+        sundays.push(new Date(cursor));
       }
-      
-      // Set the end date to Sunday, June 29, 2025 and include the full day
-      const endDate = new Date("2025-06-29");
-      endDate.setHours(23, 59, 59, 999);
-      
-      const today = new Date();
-      const sundays = getAllSundays(today, endDate);
-      
-      const reserveDateSelect = document.getElementById("reserveDate");
-      
-      if (reserveDateSelect) {
-        // Clear any existing content
-        reserveDateSelect.innerHTML = "";
-        
-        // Populate the select element with each Sunday
-        sundays.forEach(function(sunday) {
-          const option = document.createElement("option");
-          // Format display as "Month Day, Year"
-          option.textContent = sunday.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          });
-          // Set value as "YYYY-MM-DD"
-          const yyyy = sunday.getFullYear();
-          const mm = String(sunday.getMonth() + 1).padStart(2, "0");
-          const dd = String(sunday.getDate()).padStart(2, "0");
-          option.value = `${yyyy}-${mm}-${dd}`;
-          reserveDateSelect.appendChild(option);
-        });
-      }
+      cursor.setDate(cursor.getDate() + 7);
+    }
+
+    return sundays;
+  }
+
+  const select = document.getElementById("reserveDate");
+  const sundays = getUpcomingSundaysThisMonth();
+
+  if (!select) return;
+  select.innerHTML = "";
+
+  // placeholder
+  const placeholder = document.createElement("option");
+  placeholder.value    = "";
+  placeholder.textContent = "Select a Sunday";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+
+  if (sundays.length === 0) {
+    const none = document.createElement("option");
+    none.value       = "";
+    none.textContent = "No available Sundays this month";
+    none.disabled    = true;
+    select.appendChild(none);
+    return;
+  }
+
+  sundays.forEach(sun => {
+    // anchor at 00:00 UTC on that date
+    const y = sun.getFullYear(),
+          m = sun.getMonth(),
+          d = sun.getDate();
+    const utcSunday = new Date(Date.UTC(y, m, d));
+
+    // get PH‐formatted string
+    const label = utcSunday.toLocaleDateString("en-PH", {
+      year:   "numeric",
+      month:  "long",
+      day:    "numeric",
+      timeZone: "Asia/Manila"
     });
-  </script>
+
+    // build YYYY-MM-DD value
+    const yyyy = y;
+    const mm   = String(m + 1).padStart(2, "0");
+    const dd   = String(d).padStart(2, "0");
+
+    const opt = document.createElement("option");
+    opt.value       = `${yyyy}-${mm}-${dd}`;
+    opt.textContent = label;
+    select.appendChild(opt);
+  });
+
+  console.log("Upcoming Sundays (this month):", sundays.map(d => d.toDateString()));
+});
+</script>
+
+
+
 <!-- ... existing code ... -->
 </body>
 </html>

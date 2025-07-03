@@ -76,7 +76,7 @@
   font-size: 2.5rem; 
   font-weight: 700;
   line-height: 3rem;  /* Increased from 1.2rem to 3rem */
-  color: var(--text-dark);
+  color: var(--text-light);
   text-align: center;
 }
 
@@ -88,6 +88,34 @@
   color: var(--white) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
+
+
+/* Addition by jeth */
+.about__intro h3,
+.about__intro p {
+  color: white !important;
+}
+
+.menu__item .menu__item-title,
+.menu__item .menu__item-price {
+  color: white !important;
+}
+
+.menu__item-tags .tag {
+  color: white !important;
+}
+
+.reviews__loading p {
+  color: white !important;
+}
+
+.faq__answer p {
+  color: white !important;
+}
+
+
+
+/* Addition by jeth closing tag*/
 
 
 
@@ -178,7 +206,7 @@ body::before {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.8;
+  opacity: 0.6;
   z-index: -1;
   border-radius: 0; /* Ensure no rounded corners */
 }
@@ -213,14 +241,14 @@ body::before {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.9;
+  opacity: 0.7;
   z-index: -1;
   border-radius: 0; /* Ensure no rounded corners */
 }
 
 /* Update text colors for better visibility */
 .section__header {
-  color: var(--text-dark);
+  color: var(--text-light);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -232,9 +260,10 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
+  
   width: 100%;
   z-index: 999;
-  background-color: var(--white);
+  
   box-shadow: 0 2px 10px rgba(var(--nero-rgb), 1);
   height: 5vh; /* Set height to 5% of viewport height */
   opacity: 1;
@@ -248,6 +277,7 @@ nav {
   width: 100%;
   height: 100%; /* Make header take full height of nav */
   opacity: 1;
+ 
 }
 
 .logo-container {
@@ -275,6 +305,10 @@ nav {
   list-style: none;
   padding: 0 2rem;
   height: 100%; /* Make links container take full height */
+width: 100%;
+
+
+ 
 }
 
 .nav__links a {
@@ -318,7 +352,7 @@ nav {
   margin-bottom: 1rem;
   font-size: 3rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-light);
 }
 
 .header__content h1 span {
@@ -1113,6 +1147,8 @@ input[type="number"] {
     .campaign__card:hover .campaign__back {
         opacity: 0;
     }
+   
+    
 }
 
 /* Mobile touch behavior */
@@ -1137,7 +1173,7 @@ input[type="number"] {
 }
 
 .campaign__content p {
-    color: var(--text-light);
+    color: var(--text-dark);
     margin-bottom: 1.5rem;
 }
 
@@ -1217,6 +1253,7 @@ input[type="number"] {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
 .main-reserve-btn:active {
